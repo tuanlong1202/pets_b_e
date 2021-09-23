@@ -18,7 +18,7 @@ class PetsController < ApplicationController
     # GET /pets/:id
     def show
       pet = find_pet
-      render json: pet, include: :comments, :ratings
+      render json: pet, include: :comments
     end
   
     # PATCH /pets/:id
