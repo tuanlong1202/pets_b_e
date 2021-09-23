@@ -5,6 +5,6 @@ class Pet < ApplicationRecord
     validates :user_id, numericality: { only_integer: true }
 
     belongs_to :user
-    has_many :commnents, dependent: :destroy
+    has_many :comments, dependent: :destroy
     has_many :ratings, dependent: :destroy
 end
