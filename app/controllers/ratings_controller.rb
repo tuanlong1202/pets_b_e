@@ -26,7 +26,7 @@ class RatingsController < ApplicationController
     private
   
     def render_not_found_response
-      render json: { error: "Rating not found" }, status: :not_found
+      render json: { errors: ["Rating not found"] }, status: :not_found
     end
   
     def rating_params

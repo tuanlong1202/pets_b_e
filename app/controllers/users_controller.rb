@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     end
 
     def create
-      user = User.create(user_params)
+      user = User.create!(user_params)
       if user.valid?
         session[:user_id] = user.id
         render json: user, status: :created
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
         if user
           render json: user
         else
-          render json: { error: "Not authorized" }, status: :unauthorized
+          render json: { errors: ["Not authorized"] }, status: :unauthorized
         end
     end
 
@@ -61,11 +61,11 @@ class UsersController < ApplicationController
     end
   
     def user_params
-      params.permit(:user_name, :email, :password_digest)
+      params.permit(:user_name, :email, :password, :password_confirmation)
     end
   
     def render_not_found_response
-      render json: { error: "User not found" }, status: :not_found
+      render json: { errors: ["User not found"] }, status: :not_found
     end
 
     def render_unprocessable_entity_response(invalid)

@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
     private
   
     def render_not_found_response
-      render json: { error: "Comment not found" }, status: :not_found
+      render json: { errors: ["Comment not found"] }, status: :not_found
     end
   
     def comment_params
