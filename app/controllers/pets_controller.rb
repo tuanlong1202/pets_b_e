@@ -9,14 +9,20 @@ class PetsController < ApplicationController
 
     # GET /pets
     def index
-      pets = Pet.all
-      render json: pets
+      pets = Pet.all.sort {|a,b| b.created_at <=> a.created_at}
+      render json: pets, include: :user
     end
   
     # POST /pets
     def create
-      pet = Pet.create!(pet_params)
-      render json: pet, status: :created
+      pet = Pet.new(pet_params)
+        pet.user_id = session[:user_id]
+        if pet.valid?
+          pet.save
+          render json: pet,include: :user, status: :created
+        else
+          render json: { errors: pet.errors.full_messages }, status: :unprocessable_entity
+        end
     end
   
     # GET /pets/:id
@@ -46,7 +52,7 @@ class PetsController < ApplicationController
     end
   
     def pet_params
-      params.permit(:name, :image, :user_id)
+      params.permit(:name, :image)
     end
   
     def render_not_found_response
